@@ -1,6 +1,5 @@
 package com.fin_app.user_service.exception;
 
-import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,7 +45,7 @@ public class GeneralExceptionHandler {
 
         ErrorMessage error = new ErrorMessage();
         error.setErrorCode(HttpStatus.CONFLICT.value());
-        error.setMessage("The record already exist please verify and enter new record");
+        error.setMessage("The record already exist please verify and enter new record"+ ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 

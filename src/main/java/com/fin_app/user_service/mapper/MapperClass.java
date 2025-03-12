@@ -4,7 +4,6 @@ import com.fin_app.user_service.dto.*;
 import com.fin_app.user_service.entity.AccountHolderNameEntity;
 import com.fin_app.user_service.entity.AddressEntity;
 import com.fin_app.user_service.entity.CustomerEntity;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Component;
 
 @Component

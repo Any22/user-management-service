@@ -4,7 +4,6 @@ package com.fin_app.user_service.controller;
 import com.fin_app.user_service.dto.Customer;
 import com.fin_app.user_service.dto.CustomerRequest;
 import com.fin_app.user_service.dto.LoginRequest;
-import com.fin_app.user_service.exception.ErrorMessage;
 import com.fin_app.user_service.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

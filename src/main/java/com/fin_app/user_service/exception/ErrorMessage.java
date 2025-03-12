@@ -1,7 +1,7 @@
 package com.fin_app.user_service.exception;
 
 import lombok.*;
-import org.springframework.http.HttpStatusCode;
+
 
 @Getter
     @Setter

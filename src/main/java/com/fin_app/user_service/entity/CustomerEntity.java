@@ -6,8 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
-import com.fin_app.user_service.dto.AccountHolderName;
-import com.fin_app.user_service.dto.Address;
+
 
 ////Marking a field with the @Transient annotation in an entity class tells Jakarta Persistence
 //// (or JPA) that this field should not be persisted in the database. In other words, the field
