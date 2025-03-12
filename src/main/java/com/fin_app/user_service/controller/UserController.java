@@ -3,6 +3,8 @@ package com.fin_app.user_service.controller;
 
 import com.fin_app.user_service.dto.Customer;
 import com.fin_app.user_service.dto.CustomerRequest;
+import com.fin_app.user_service.dto.LoginRequest;
+import com.fin_app.user_service.exception.ErrorMessage;
 import com.fin_app.user_service.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +27,31 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserController {
     private  final CustomerService userService;
 
+
     @PostMapping(value={"/register"}, consumes= APPLICATION_JSON_VALUE)
-    public ResponseEntity<Customer> registerNewCustomer(@Valid @RequestBody CustomerRequest customerRequest){
+    public ResponseEntity<String> registerNewCustomer(@Valid @RequestBody CustomerRequest customerRequest){
         try{
-             Customer response = userService.createNewAccount(customerRequest);
-            return new ResponseEntity<>(response,HttpStatus.CREATED);
+            log.info("The customerRequest is {}",customerRequest );
+             Customer response = userService.registerCustomer(customerRequest);
+            return new ResponseEntity<>("The user with id : " + response.getCustomerId()+ " is registered successfully",HttpStatus.CREATED);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
+
+    }
+
+    @PostMapping(value={"/login"}, consumes= APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> loginCustomer(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
+        try{
+            log.info("Login Request received is {}", loginRequest );
+             String status=  userService.loginRequest(loginRequest);
+           return new ResponseEntity<>(status,HttpStatus.FOUND);
+
+        } catch (Exception e) {
+            throw new Exception(e);
+            //return new ResponseEntity<> (ErrorMessage.builder().errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(e.getMessage()).build());
+        }
 
     }
 }

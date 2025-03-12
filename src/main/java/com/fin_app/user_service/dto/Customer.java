@@ -12,11 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
-    private String customerId;
+    private Long customerId;
+    private String userName;
+    private String password;
     private AccountHolderName accountHolderName;
+    private String emailAddress;
+    private Long contactNumber;
     private Address address;
     private String accountType;
-    //private Enums accountType;
     private String branchCode;
     private Double interestRate;
 
