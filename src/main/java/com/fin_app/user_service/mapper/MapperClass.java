@@ -112,7 +112,7 @@ public class MapperClass {
     private Double getInterestRate(String accountType) {
         return switch (accountType.toUpperCase()) {
             case  "SAVINGS" -> 2.5;
-            case "CHECKING" -> 0.5;
+            case "CURRENT" -> 0.5;
             case "BUSINESS" -> 1.5;
             default -> 0.0; // Default for unknown types
         };

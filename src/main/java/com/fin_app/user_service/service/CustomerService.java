@@ -7,6 +7,7 @@ import com.fin_app.user_service.dto.LoginRequest;
 import com.fin_app.user_service.entity.CustomerEntity;
 import com.fin_app.user_service.exception.DuplicateRecordExist;
 import com.fin_app.user_service.exception.NoDataFoundException;
+import com.fin_app.user_service.exception.UserServiceConstants;
 import com.fin_app.user_service.mapper.MapperClass;
 import com.fin_app.user_service.respository.CustomerRepository;
 import jakarta.validation.Valid;
@@ -35,7 +36,6 @@ public class CustomerService {
         log.info("The customer after mapping {}", newCustomer);
         CustomerEntity entity = mapper.convertToEntity(newCustomer);
         this.savingToDb(entity);
-
         return mapper.convertToDTO(entity);
 
 
@@ -50,13 +50,23 @@ public class CustomerService {
     public String loginRequest(@Valid LoginRequest loginRequest) throws NoDataFoundException {
         Optional<CustomerEntity> optionalCustomerEntity =  customerRepository.findByUserNameAndPassword(loginRequest.getUserName()
                 , loginRequest.getPassword());
-        log.info(loginRequest.getUserName() +" " + loginRequest.getPassword());
+
       if( optionalCustomerEntity.isPresent()){
-        //  log.info("The user name and password"+ op)
-          return "Your login is successful";
+          return UserServiceConstants.SUCCESSFULL_LOGIN_MESSAGE.toString();
       }
       else {
-        throw new NoDataFoundException("The user credentials is wrong");
+        throw new NoDataFoundException(UserServiceConstants.INVALID_CREDENTIALS_MESSAGE.toString());
        }
+    }
+
+    public Customer fetchCustomerById (Long customerId) throws NoDataFoundException {
+        Optional<CustomerEntity> optionalCustomerEntity=  customerRepository.findById(customerId);
+        if (optionalCustomerEntity.isPresent()){
+            CustomerEntity entity = optionalCustomerEntity.get();
+            return mapper.convertToDTO(entity);
+        }else {
+            throw new NoDataFoundException("The user with this id does not exist");
+        }
+
     }
 }
