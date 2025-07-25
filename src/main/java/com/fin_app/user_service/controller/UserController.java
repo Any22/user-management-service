@@ -3,7 +3,6 @@ package com.fin_app.user_service.controller;
 import com.fin_app.user_service.dto.Customer;
 import com.fin_app.user_service.dto.CustomerRequest;
 import com.fin_app.user_service.dto.LoginRequest;
-import com.fin_app.user_service.exception.ErrorMessage;
 import com.fin_app.user_service.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +41,7 @@ public class UserController {
         try{
             log.info("Login Request received is {}", loginRequest );
              String status=  userService.loginRequest(loginRequest);
-           return new ResponseEntity<>(status,HttpStatus.FOUND);
+           return new ResponseEntity<>(status,HttpStatus.CREATED);
 
         } catch (Exception e) {
             throw new Exception(e);
@@ -55,7 +54,7 @@ public class UserController {
         try{
             log.info("The customerId is  {}", customerId);
             Customer customer =  userService.fetchCustomerById(customerId);
-            return new ResponseEntity<>(customer,HttpStatus.FOUND);
+            return new ResponseEntity<>(customer,HttpStatus.OK);
 
         } catch (Exception e) {
             throw new Exception(e);
