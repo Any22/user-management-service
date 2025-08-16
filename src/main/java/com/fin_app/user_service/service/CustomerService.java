@@ -13,6 +13,7 @@ import com.fin_app.user_service.respository.CustomerRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,7 +44,11 @@ public class CustomerService {
 
 
     private void savingToDb(CustomerEntity newCustomer) {
-        customerRepository.save(newCustomer);
+     try {
+         customerRepository.save(newCustomer);
+     } catch(DataIntegrityViolationException ex){
+         throw new DuplicateRecordExist("The data should should be unique like email or contact number");
+     }
     }
 
 
@@ -52,7 +57,7 @@ public class CustomerService {
                 , loginRequest.getPassword());
 
       if( optionalCustomerEntity.isPresent()){
-          return UserServiceConstants.SUCCESSFULL_LOGIN_MESSAGE.toString();
+          return UserServiceConstants.SUCCESSFUL_LOGIN_MESSAGE.toString();
       }
       else {
         throw new NoDataFoundException(UserServiceConstants.INVALID_CREDENTIALS_MESSAGE.toString());
@@ -65,7 +70,7 @@ public class CustomerService {
             CustomerEntity entity = optionalCustomerEntity.get();
             return mapper.convertToDTO(entity);
         }else {
-            throw new NoDataFoundException("The user with this id does not exist");
+            throw new NoDataFoundException(UserServiceConstants.ID_DOES_NOT_EXIST.toString());
         }
 
     }

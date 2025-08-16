@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 public class LoginRequest {
 
     @NotBlank(message = "user name is mandatory field")
-    @Pattern(regexp = "^[a-z]+$",message="{userName.validation}")
+    @Pattern(regexp = "^[a-z]+$",message="${userName.validation}")
     private String userName;
 
     @NotBlank(message = "Password of at-least 8 characters is required")
-    @Pattern(regexp = "^[a-zA-Z0-9@$&]{8,}$", message="{password.validation}")
+    @Pattern(regexp = "^[a-zA-Z0-9@$&]{8,}$", message="${password.validation}")
     private String password;
 
 }

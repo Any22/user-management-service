@@ -24,13 +24,13 @@ public class UserController {
 
 
     @PostMapping(value={"/register"}, consumes= APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> registerNewCustomer(@Valid @RequestBody CustomerRequest customerRequest){
+    public ResponseEntity<String> registerNewCustomer(@Valid @RequestBody CustomerRequest customerRequest) throws Exception {
         try{
             log.info("The customerRequest is {}",customerRequest );
              Customer response = userService.registerCustomer(customerRequest);
             return new ResponseEntity<>("The user registered successfully with id : " + response.getCustomerId(),HttpStatus.CREATED);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new Exception(e);
         }
 
 

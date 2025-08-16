@@ -41,9 +41,15 @@ CREATE TABLE user_data (
  "userName": "mason",
  "password": "maskd5ksd4"
 }
+I have run these two queries to check how many duplicate contact numbers I have then update the field to carry unique contact numbers
+SELECT contact_number, COUNT(*)
+FROM user_data
+GROUP BY contact_number
+HAVING COUNT(*) > 1;
 
 
-
+ALTER TABLE user_data
+ADD CONSTRAINT unique_contact_number UNIQUE (contact_number);
 
 
 

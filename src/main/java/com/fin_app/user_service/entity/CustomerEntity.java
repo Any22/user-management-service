@@ -11,6 +11,9 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 ////Marking a field with the @Transient annotation in an entity class tells Jakarta Persistence
 //// (or JPA) that this field should not be persisted in the database. In other words, the field
 //// is ignored during both read and write operations to the database.
+/// unique= true : This instructs JPA/Hibernate to generate a unique constraint at the database schema level. It ensures that no two rows can hold the same contact number
+/// The JPA annotation is essential for persistence logic.
+/// If the schema doesn't reflect the constraint, duplicates can slip in.So implement it table query as well if table already exist
 @Entity
 @Data
 @Table(name = "user_data")
@@ -37,7 +40,7 @@ public class CustomerEntity {
     @Column(name = "email_address", nullable = false)
     private String emailAddress;
 
-    @Column (name= "contact_number", nullable = false)
+    @Column (name= "contact_number", unique = true, nullable = false)
     private Long contactNumber;
 
     @Embedded
