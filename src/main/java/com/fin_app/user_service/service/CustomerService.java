@@ -26,20 +26,17 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public Customer registerCustomer(@Valid CustomerRequest customerRequest)  {
-        String userName = customerRequest.getUserName();
-        Optional<CustomerEntity> optionalCustomerEntity=  customerRepository.findByUserName(userName);
+        String emailAddress = customerRequest.getEmailAddress();
+        Optional<CustomerEntity> optionalCustomerEntity=  customerRepository.findByEmailAddress(emailAddress);
 
         if (optionalCustomerEntity.isPresent()){
-            throw new DuplicateRecordExist("The user "+userName + " already exists");
+            throw new DuplicateRecordExist("The user with email address: "+emailAddress+ " already exists");
         }
 
-        Customer newCustomer = mapper.mapToCustomerDTO(customerRequest);
-        log.info("The customer after mapping {}", newCustomer);
-        CustomerEntity entity = mapper.convertToEntity(newCustomer);
-        this.savingToDb(entity);
-        return mapper.convertToDTO(entity);
-
-
+        CustomerEntity newCustomerEntity = mapper.convertToEntity(customerRequest);
+        log.info("The new customer after mapping {}", newCustomerEntity);
+        this.savingToDb(newCustomerEntity);
+        return mapper.convertToDTO(newCustomerEntity);
     }
 
 
@@ -53,7 +50,7 @@ public class CustomerService {
 
 
     public String loginRequest(@Valid LoginRequest loginRequest) throws NoDataFoundException {
-        Optional<CustomerEntity> optionalCustomerEntity =  customerRepository.findByUserNameAndPassword(loginRequest.getUserName()
+        Optional<CustomerEntity> optionalCustomerEntity =  customerRepository.findByUserIdAndPassword(loginRequest.getUserId()
                 , loginRequest.getPassword());
 
       if( optionalCustomerEntity.isPresent()){
@@ -64,8 +61,8 @@ public class CustomerService {
        }
     }
 
-    public Customer fetchCustomerById (Long customerId) throws NoDataFoundException {
-        Optional<CustomerEntity> optionalCustomerEntity=  customerRepository.findById(customerId);
+    public Customer fetchCustomerById (String userId) throws NoDataFoundException {
+        Optional<CustomerEntity> optionalCustomerEntity=  customerRepository.findById(userId);
         if (optionalCustomerEntity.isPresent()){
             CustomerEntity entity = optionalCustomerEntity.get();
             return mapper.convertToDTO(entity);

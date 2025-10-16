@@ -8,63 +8,47 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MapperClass {
-    public Customer mapToCustomerDTO(CustomerRequest customerRequest) {
-      return   Customer.builder()
-              .userName(customerRequest.getUserName())
-              .password(customerRequest.getUserPassword())
-              .accountHolderName(this.getAccountHolderNameFromRequest(customerRequest))
-              .emailAddress(customerRequest.getEmailAddress())
-              .contactNumber(customerRequest.getContactNumber())
-              .address(this.getAddressFromRequest(customerRequest))
-              .accountType(customerRequest.getAccountType())
-              .branchCode(String.valueOf(Enums.BranchCode.BR01))
-              .interestRate(this.getInterestRate(customerRequest.getAccountType()))
-              .build();
-    }
+//    public Customer mapToCustomerDTO(CustomerRequest customerRequest) {
+//      return   Customer.builder()
+//              .userName(customerRequest.getUserName())
+//              .password(customerRequest.getUserPassword())
+//              .accountHolderName(this.getAccountHolderNameFromRequest(customerRequest))
+//              .emailAddress(customerRequest.getEmailAddress())
+//              .contactNumber(customerRequest.getContactNumber())
+//              .address(customerRequest.getPostalAddress())
+//              .accountType(customerRequest.getAccountType())
+//              .branchCode(String.valueOf(Enums.BranchCode.BR01))
+//              .interestRate(this.getInterestRate(customerRequest.getAccountType()))
+//              .build();
+//    }
 
-    public CustomerEntity convertToEntity(Customer customerDTO) {
+    public CustomerEntity convertToEntity(CustomerRequest customerReq) {
 
         return CustomerEntity.builder()
-                .userName(customerDTO.getUserName())
-                .password(customerDTO.getPassword())
-                .accountHolderName(this.getAccountHolderNameEntity(customerDTO))
-                .emailAddress(customerDTO.getEmailAddress())
-                .contactNumber(customerDTO.getContactNumber())
-                .accountType(customerDTO.getAccountType())
-                .address(this.getAddressEntity(customerDTO))
-                .branchCode(Enums.BranchCode.valueOf(customerDTO.getBranchCode()))
-                .interestRate(customerDTO.getInterestRate())
+                .password(customerReq.getUserPassword())
+                .accountHolderName(this.getAccountHolderNameEntity(customerReq))
+                .emailAddress(customerReq.getEmailAddress())
+                .contactNumber(customerReq.getContactNumber())
+                .address(this.getAddressEntity(customerReq))
+                .accountType(Enums.AccountType.valueOf(customerReq.getAccountType()))
+                .address(this.getAddressEntity(customerReq))
+                .branchCode(this.getBranchCode(customerReq.getPostalAddress().getState()))
+                .userType(Enums.UserType.USER)
+                .interestRate(this.getInterestRate(customerReq.getAccountType()))
                 .build();
     }
 
-    public AccountHolderNameEntity getAccountHolderNameEntity(Customer customerDTO) {
+    public AccountHolderNameEntity getAccountHolderNameEntity(CustomerRequest customerRequest) {
         return AccountHolderNameEntity
                 .builder()
-                .firstName(customerDTO.getAccountHolderName().getFirstName())
-                .lastName(customerDTO.getAccountHolderName().getLastName())
-                .build();
-
-    }
-    public AddressEntity getAddressEntity(Customer customerDTO) {
-        return AddressEntity
-                .builder()
-                .addressLine(customerDTO.getAddress().getAddressLine())
-                .city(customerDTO.getAddress().getCity())
-                .postalCode(customerDTO.getAddress().getPostalCode())
-                .state(customerDTO.getAddress().getState())
-                .build();
-    }
-
-    public AccountHolderName getAccountHolderNameFromRequest (CustomerRequest customerRequest){
-        return AccountHolderName.builder()
                 .firstName(customerRequest.getFirstName())
                 .lastName(customerRequest.getLastName())
                 .build();
 
     }
-
-    public Address getAddressFromRequest(CustomerRequest customerRequest) {
-        return Address.builder()
+    public AddressEntity getAddressEntity(CustomerRequest customerRequest) {
+        return AddressEntity
+                .builder()
                 .addressLine(customerRequest.getPostalAddress().getAddressLine())
                 .city(customerRequest.getPostalAddress().getCity())
                 .postalCode(customerRequest.getPostalAddress().getPostalCode())
@@ -72,17 +56,36 @@ public class MapperClass {
                 .build();
     }
 
+//    public AccountHolderName getAccountHolderNameFromRequest (CustomerRequest customerRequest){
+//        return AccountHolderName.builder()
+//                .firstName(customerRequest.getFirstName())
+//                .lastName(customerRequest.getLastName())
+//                .build();
+//
+//    }
+
+//    public Address getAddressFromRequest(CustomerRequest customerRequest) {
+//        return Address.builder()
+//                .addressLine(customerRequest.getPostalAddress().getAddressLine())
+//                .city(customerRequest.getPostalAddress().getCity())
+//                .postalCode(customerRequest.getPostalAddress().getPostalCode())
+//                .state(customerRequest.getPostalAddress().getState())
+//                .build();
+//    }
+
     public Customer convertToDTO(CustomerEntity customerEntity) {
         return Customer.builder()
-                .customerId(customerEntity.getCustomerId())
-                .userName(customerEntity.getUserName())
+                .userId(customerEntity.getUserId())
                 .password(customerEntity.getPassword())
+                .createdAt(customerEntity.getCreatedAt())
+                .updatedAt(customerEntity.getUpdateAt())
                 .accountHolderName(this.getAccountHolderName(customerEntity))
                 .emailAddress(customerEntity.getEmailAddress())
                 .contactNumber(customerEntity.getContactNumber())
-                .accountType(customerEntity.getAccountType())
                 .address(this.getAddress(customerEntity))
-                .branchCode(String.valueOf(Enums.BranchCode.valueOf(String.valueOf(customerEntity.getBranchCode()))))
+                .accountType(String.valueOf(customerEntity.getAccountType()))
+                .userType(String.valueOf(customerEntity.getUserType()))
+                .branchCode(customerEntity.getBranchCode().toString())
                 .interestRate(customerEntity.getInterestRate())
                 .build();
 
@@ -115,6 +118,18 @@ public class MapperClass {
             case "CURRENT" -> 0.5;
             case "BUSINESS" -> 1.5;
             default -> 0.0; // Default for unknown types
+        };
+    }
+
+    private  Enums.BranchCode getBranchCode (String state) {
+        return switch (state.toUpperCase()) {
+            case  "VIC" -> Enums.BranchCode.BR01;
+            case "NSW" -> Enums.BranchCode.BR02;
+            case "QLD" -> Enums.BranchCode.BR03;
+            case "SA" -> Enums.BranchCode.BR04;
+            case "WA" -> Enums.BranchCode.BR05;
+            case "TAS"-> Enums.BranchCode.BR06;
+            default -> Enums.BranchCode.BR01; // Default for unknown types
         };
     }
 

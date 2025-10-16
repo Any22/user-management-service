@@ -3,9 +3,12 @@ package com.fin_app.user_service.entity;
 import com.fin_app.user_service.dto.Enums;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
+import java.time.LocalDateTime;
 
 
 ////Marking a field with the @Transient annotation in an entity class tells Jakarta Persistence
@@ -23,22 +26,23 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 @AllArgsConstructor
 public class CustomerEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
-    @SequenceGenerator(name = "customer_id_seq", sequenceName = "customer_id_sequence", allocationSize = 1)
-    @Column(name = "user_id", nullable = false)
-    private Long customerId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String userId;
 
-    @Column(name = "user_name", nullable = false)
-    private String userName;
+    @Column(name = "email_address", nullable = false)
+    private String emailAddress;
 
     @Column(name = "password", nullable = false)
     private String password;
 
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
+
     @Embedded
     private AccountHolderNameEntity accountHolderName;
-
-    @Column(name = "email_address", nullable = false)
-    private String emailAddress;
 
     @Column (name= "contact_number", unique = true, nullable = false)
     private Long contactNumber;
@@ -46,13 +50,17 @@ public class CustomerEntity {
     @Embedded
     private AddressEntity address;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="account_type", nullable=false)
-    private String accountType;
+    private Enums.AccountType accountType;
 
     @Enumerated(EnumType.STRING)
     @Column(name= "branch_code", nullable=false)
-    @JdbcType(PostgreSQLEnumJdbcType.class)
-    private Enums.BranchCode branchCode;
+    private Enums.BranchCode branchCode ;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name= "user_type", nullable=false)
+    private Enums.UserType userType ;
 
     @Column(name="interest_rates" , nullable=false)
     private Double interestRate;

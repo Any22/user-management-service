@@ -29,6 +29,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+	dependencies {
+		implementation('org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9') {
+			// Example override
+			exclude group: 'org.webjars', module: 'swagger-ui'
+		}
+		// Re-include a fixed version if necessary
+		implementation 'org.webjars:swagger-ui:5.27.1'
+	}
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'

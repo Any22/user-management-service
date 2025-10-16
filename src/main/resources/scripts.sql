@@ -18,23 +18,40 @@ CREATE TABLE user_data (
 );
 
 
-
 {
- "userName": "reddy",
- "userPassword": "gdj39end",
-  "firstName": "Gabriel",
+
+  "firstName": "George",
   "lastName": "Mayo",
-  "emailAddress": "gabriel.mayo@example.com",
-  "contactNumber": 4439383903,
   "postalAddress": {
     "addressLine": "123 Main St",
     "city": "Springfield",
     "postalCode": 6270,
-    "state": "VIC"
+    "state": "SA"
   },
-  "accountType": "SAVINGS"
+    "contactNumber": 4439383903,
+      "accountType": "SAVINGS",
+  "emailAddress": "abriel.mayo@example.com",
+   "userPassword": "gdj39end"
+
+
 }
 
+
+{
+ "userName": "john",
+ "userPassword": "johnLik3edc",
+  "firstName": "John",
+  "lastName": "Doe",
+  "emailAddress": "john.doe@example.com",
+  "contactNumber": 4357544474,
+  "postalAddress": {
+    "addressLine": "67 Zoe St",
+    "city": "Abbotsfield",
+    "postalCode": 22370,
+    "state": "NSW"
+  },
+  "accountType": "CURRENT"
+}
 
 
 {
@@ -54,6 +71,16 @@ ADD CONSTRAINT unique_contact_number UNIQUE (contact_number);
 
 
 
+
+--//    public String getUserPassword() {
+--//        return "*".repeat(userPassword.length()); // Always return masked value
+--//    }
+--//
+--//
+--//    // Optional: If you need the actual password internally
+--//    public String getActualPassword() {
+--//        return userPassword;
+--//    }
 
 
 

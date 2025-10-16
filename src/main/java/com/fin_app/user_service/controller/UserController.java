@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
+//https://www.youtube.com/watch?v=_FdKTSFnWeg&list=PLxhSr_SLdXGO6LQ-yZpwvO6a8IP7mDkMp
 @RestController
 @RequestMapping("v1/api/users")
 @Slf4j
@@ -27,8 +27,8 @@ public class UserController {
     public ResponseEntity<String> registerNewCustomer(@Valid @RequestBody CustomerRequest customerRequest) throws Exception {
         try{
             log.info("The customerRequest is {}",customerRequest );
-             Customer response = userService.registerCustomer(customerRequest);
-            return new ResponseEntity<>("The user registered successfully with id : " + response.getCustomerId(),HttpStatus.CREATED);
+            Customer response = userService.registerCustomer(customerRequest);
+            return new ResponseEntity<>("The user registered successfully with id : " + response.getUserId(),HttpStatus.CREATED);
         } catch (Exception e) {
             throw new Exception(e);
         }
@@ -40,20 +40,19 @@ public class UserController {
     public ResponseEntity<?> loginCustomer(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
         try{
             log.info("Login Request received is {}", loginRequest );
-             String status=  userService.loginRequest(loginRequest);
+             String status =  userService.loginRequest(loginRequest);
            return new ResponseEntity<>(status,HttpStatus.CREATED);
 
         } catch (Exception e) {
             throw new Exception(e);
         }
-
     }
 
     @GetMapping(value={"/fetch/{customerId}"}, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> fetchCustomerById(@PathVariable("customerId") Long customerId) throws Exception {
+    public ResponseEntity<?> fetchCustomerById(@PathVariable("customerId") String userId) throws Exception {
         try{
-            log.info("The customerId is  {}", customerId);
-            Customer customer =  userService.fetchCustomerById(customerId);
+            log.info("The customerId is  {}", userId);
+            Customer customer =  userService.fetchCustomerById(userId);
             return new ResponseEntity<>(customer,HttpStatus.OK);
 
         } catch (Exception e) {
