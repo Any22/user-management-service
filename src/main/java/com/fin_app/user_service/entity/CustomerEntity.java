@@ -4,9 +4,8 @@ import com.fin_app.user_service.dto.Enums;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+
 
 import java.time.LocalDateTime;
 
