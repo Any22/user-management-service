@@ -19,7 +19,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @AllArgsConstructor
 @ConfigurationProperties
 @JsonIgnoreProperties(value={"userPassword"}, allowSetters = true)    //static filter applied , explore dynamic filtering as well
-public class CustomerRequest {
+public class UserRequest {
     @NotBlank(message = "First Name is required")
     @Pattern(regexp = "^[A-Z][a-z]+(?:\\s[A-Z][a-z]+)*$",message = "First letter should be some capital letter")
     private String firstName;

@@ -3,7 +3,7 @@ package com.fin_app.user_service.exception;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
-import org.apache.coyote.BadRequestException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -19,9 +19,10 @@ import java.util.stream.Collectors;
 public class GeneralExceptionHandler {
     @Autowired
     private Environment environment;
-    @ExceptionHandler({ BadRequestException.class, ValidationException.class
+
+    @ExceptionHandler({ ValidationException.class
             , IllegalArgumentException.class,UnsupportedOperationException.class})
-    public ResponseEntity<ErrorMessage> generalExceptionHandler(Exception ex) {
+    public ResponseEntity<ErrorMessage> generalExceptionHandler(RuntimeException ex) {
         ErrorMessage error =  ErrorMessage.builder()
                 .errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(environment.getProperty(UserServiceConstants.GENERAL_EXCEPTION_MESSAGE.toString()))

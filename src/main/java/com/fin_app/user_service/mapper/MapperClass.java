@@ -3,111 +3,82 @@ package com.fin_app.user_service.mapper;
 import com.fin_app.user_service.dto.*;
 import com.fin_app.user_service.entity.AccountHolderNameEntity;
 import com.fin_app.user_service.entity.AddressEntity;
-import com.fin_app.user_service.entity.CustomerEntity;
+import com.fin_app.user_service.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MapperClass {
-//    public Customer mapToCustomerDTO(CustomerRequest customerRequest) {
-//      return   Customer.builder()
-//              .userName(customerRequest.getUserName())
-//              .password(customerRequest.getUserPassword())
-//              .accountHolderName(this.getAccountHolderNameFromRequest(customerRequest))
-//              .emailAddress(customerRequest.getEmailAddress())
-//              .contactNumber(customerRequest.getContactNumber())
-//              .address(customerRequest.getPostalAddress())
-//              .accountType(customerRequest.getAccountType())
-//              .branchCode(String.valueOf(Enums.BranchCode.BR01))
-//              .interestRate(this.getInterestRate(customerRequest.getAccountType()))
-//              .build();
-//    }
 
-    public CustomerEntity convertToEntity(CustomerRequest customerReq) {
+    public UserEntity convertToEntity(UserRequest userRequest) {
 
-        return CustomerEntity.builder()
-                .password(customerReq.getUserPassword())
-                .accountHolderName(this.getAccountHolderNameEntity(customerReq))
-                .emailAddress(customerReq.getEmailAddress())
-                .contactNumber(customerReq.getContactNumber())
-                .address(this.getAddressEntity(customerReq))
-                .accountType(Enums.AccountType.valueOf(customerReq.getAccountType()))
-                .address(this.getAddressEntity(customerReq))
-                .branchCode(this.getBranchCode(customerReq.getPostalAddress().getState()))
+        return UserEntity.builder()
+                .password(userRequest.getUserPassword())
+                .accountHolderName(this.getAccountHolderNameEntity(userRequest))
+                .emailAddress(userRequest.getEmailAddress())
+                .contactNumber(userRequest.getContactNumber())
+                .address(this.getAddressEntity(userRequest))
+                .accountType(Enums.AccountType.valueOf(userRequest.getAccountType()))
+                .address(this.getAddressEntity(userRequest))
+                .branchCode(this.getBranchCode(userRequest.getPostalAddress().getState()))
                 .userType(Enums.UserType.USER)
-                .interestRate(this.getInterestRate(customerReq.getAccountType()))
+                .interestRate(this.getInterestRate(userRequest.getAccountType()))
                 .build();
     }
 
-    public AccountHolderNameEntity getAccountHolderNameEntity(CustomerRequest customerRequest) {
+    public AccountHolderNameEntity getAccountHolderNameEntity(UserRequest userRequest) {
         return AccountHolderNameEntity
                 .builder()
-                .firstName(customerRequest.getFirstName())
-                .lastName(customerRequest.getLastName())
+                .firstName(userRequest.getFirstName())
+                .lastName(userRequest.getLastName())
                 .build();
 
     }
-    public AddressEntity getAddressEntity(CustomerRequest customerRequest) {
+    public AddressEntity getAddressEntity(UserRequest userRequest) {
         return AddressEntity
                 .builder()
-                .addressLine(customerRequest.getPostalAddress().getAddressLine())
-                .city(customerRequest.getPostalAddress().getCity())
-                .postalCode(customerRequest.getPostalAddress().getPostalCode())
-                .state(customerRequest.getPostalAddress().getState())
+                .addressLine(userRequest.getPostalAddress().getAddressLine())
+                .city(userRequest.getPostalAddress().getCity())
+                .postalCode(userRequest.getPostalAddress().getPostalCode())
+                .state(userRequest.getPostalAddress().getState())
                 .build();
     }
 
-//    public AccountHolderName getAccountHolderNameFromRequest (CustomerRequest customerRequest){
-//        return AccountHolderName.builder()
-//                .firstName(customerRequest.getFirstName())
-//                .lastName(customerRequest.getLastName())
-//                .build();
-//
-//    }
 
-//    public Address getAddressFromRequest(CustomerRequest customerRequest) {
-//        return Address.builder()
-//                .addressLine(customerRequest.getPostalAddress().getAddressLine())
-//                .city(customerRequest.getPostalAddress().getCity())
-//                .postalCode(customerRequest.getPostalAddress().getPostalCode())
-//                .state(customerRequest.getPostalAddress().getState())
-//                .build();
-//    }
-
-    public Customer convertToDTO(CustomerEntity customerEntity) {
-        return Customer.builder()
-                .userId(customerEntity.getUserId())
-                .password(customerEntity.getPassword())
-                .createdAt(customerEntity.getCreatedAt())
-                .updatedAt(customerEntity.getUpdateAt())
-                .accountHolderName(this.getAccountHolderName(customerEntity))
-                .emailAddress(customerEntity.getEmailAddress())
-                .contactNumber(customerEntity.getContactNumber())
-                .address(this.getAddress(customerEntity))
-                .accountType(String.valueOf(customerEntity.getAccountType()))
-                .userType(String.valueOf(customerEntity.getUserType()))
-                .branchCode(customerEntity.getBranchCode().toString())
-                .interestRate(customerEntity.getInterestRate())
+    public User convertToDTO(UserEntity userEntity) {
+        return User.builder()
+                .userId(userEntity.getUserId())
+                .password(userEntity.getPassword())
+                .createdAt(userEntity.getCreatedAt())
+                .updatedAt(userEntity.getUpdateAt())
+                .accountHolderName(this.getAccountHolderName(userEntity))
+                .emailAddress(userEntity.getEmailAddress())
+                .contactNumber(userEntity.getContactNumber())
+                .address(this.getAddress(userEntity))
+                .accountType(String.valueOf(userEntity.getAccountType()))
+                .userType(String.valueOf(userEntity.getUserType()))
+                .branchCode(userEntity.getBranchCode().toString())
+                .interestRate(userEntity.getInterestRate())
                 .build();
 
     }
 
 
-    private AccountHolderName getAccountHolderName(CustomerEntity customerEntity) {
+    private AccountHolderName getAccountHolderName(UserEntity userEntity) {
         return AccountHolderName
                 .builder()
-                .firstName(customerEntity.getAccountHolderName().getFirstName())
-                .lastName(customerEntity.getAccountHolderName().getLastName())
+                .firstName(userEntity.getAccountHolderName().getFirstName())
+                .lastName(userEntity.getAccountHolderName().getLastName())
                 .build();
 
     }
 
-    private Address getAddress(CustomerEntity customerEntity) {
+    private Address getAddress(UserEntity userEntity) {
         return Address
                 .builder()
-                .addressLine(customerEntity.getAddress().getAddressLine())
-                .city(customerEntity.getAddress().getCity())
-                .postalCode(customerEntity.getAddress().getPostalCode())
-                .state(customerEntity.getAddress().getState())
+                .addressLine(userEntity.getAddress().getAddressLine())
+                .city(userEntity.getAddress().getCity())
+                .postalCode(userEntity.getAddress().getPostalCode())
+                .state(userEntity.getAddress().getState())
                 .build();
     }
 

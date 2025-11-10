@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class User {
     private String userId;
     private AccountHolderName accountHolderName;
     private String password;

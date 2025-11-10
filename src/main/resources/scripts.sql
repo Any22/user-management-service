@@ -38,19 +38,19 @@ CREATE TABLE user_data (
 
 
 {
- "userName": "john",
- "userPassword": "johnLik3edc",
   "firstName": "John",
   "lastName": "Doe",
-  "emailAddress": "john.doe@example.com",
-  "contactNumber": 4357544474,
   "postalAddress": {
     "addressLine": "67 Zoe St",
     "city": "Abbotsfield",
     "postalCode": 22370,
     "state": "NSW"
   },
-  "accountType": "CURRENT"
+
+  "emailAddress": "john.doe@example.com",
+  "contactNumber": 4357544474,
+  "accountType": "CURRENT",
+  "userPassword": "johnLik3edc",
 }
 
 
